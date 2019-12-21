@@ -13,4 +13,12 @@
 class Student < ActiveRecord::Base
   has_many :classroom_students
   has_many :classrooms, through: :classroom_students
+  def self.search(keyword)
+  	if keyword =="" || ! keyword
+  		self.all
+    else
+    	sql="SELECT * FROM students WHERE name LIKE ?"
+    	Student.find_by_sql([sql,keyword+"%"])
+    end
+  end
 end
